@@ -13,9 +13,9 @@ services:
             # the previous defined context
             dockerfile: .docker/nginx/Dockerfile
         # Image name/ID
-        image: go-proj
+        image: go-proj-nginx
         # Custom name for the container
-        container_name: go-proj
+        container_name: go-proj-nginx
         # Expose ports
         # HOST:CONTAINER
         ports:
