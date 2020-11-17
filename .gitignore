@@ -1,0 +1,6 @@
+# IDE Folder
+.idea/
+.vscode/
+
+# Environment files
+.env
