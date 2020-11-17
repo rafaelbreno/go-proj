@@ -2,7 +2,7 @@
 FROM nginx:alpine
 
 # Copying the conf file
-COPY /.docker/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY /.docker/nginx/conf/nginx.conf /etc/nginx/nginx.conf
 
 # Exposing a port, where this container will
 # be accessible to
