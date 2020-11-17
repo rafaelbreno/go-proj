@@ -21,4 +21,4 @@ ENTRYPOINT ["nginx"]
 # This be executed as:
 # $ nginx -g
 # $ nginx daemon off
-CMD ["-g", "daemon off"]
+CMD ["-g", "daemon off;"]
