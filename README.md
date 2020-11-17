@@ -74,6 +74,10 @@
 
 ## Project Folder Structure
 ### _.docker/_
+- Here will be all Dockerfiles
+- _nginx/_
+- _postgresql/_
+- _golang/_
 ### _app/_
 - _helpers/_
 - _http/_
