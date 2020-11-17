@@ -22,6 +22,18 @@ services:
             - "8090:80"
         # This will define the Services that this service
         # depends on, so they will be mounted/built before
-        #depends_on:
+        depends_on:
+            - "app"
         #    - "db"
-        #    - "app"
+    app:
+        build:
+            context: .
+            dockerfile: .docker/go/Dockerfile
+        image: go-proj-app 
+        container_name: go-proj-app
+        restart: always
+        ports:
+            - "8080"
+        volumes:
+            - ./:/var/www/html
+
