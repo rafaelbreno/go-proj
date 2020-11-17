@@ -1,0 +1,27 @@
+# Docs: https://docs.docker.com/compose/compose-file/ 
+# Version of docker-compose
+version: "3.8"
+# Services/Container that will be built
+services:
+    # Service Name
+    nginx:
+        build:
+            # Path to a directory that will be used
+            # as context to find the dockerfile
+            context: .
+            # Dockerfile path from the "vision" of
+            # the previous defined context
+            dockerfile: .docker/nginx/Dockerfile
+        # Image name/ID
+        image: go-proj
+        # Custom name for the container
+        container_name: go-proj
+        # Expose ports
+        # HOST:CONTAINER
+        ports:
+            - "8090:80"
+        # This will define the Services that this service
+        # depends on, so they will be mounted/built before
+        #depends_on:
+        #    - "db"
+        #    - "app"
