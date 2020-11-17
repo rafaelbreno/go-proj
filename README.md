@@ -1,7 +1,10 @@
 # GoProject
 - Random project for learning purposes
 - Expects a lot of comments
-
+## Packages
+- [Gin](https://github.com/gin-gonic/gin)
+- [GORM](https://github.com/go-gorm/gorm)
+- [Godotenv](github.com/joho/godotenv)
 ## TODO:
 
 ### Study: 
@@ -22,6 +25,7 @@
         - [ ] MySQL
         - [ ] PostgreSQL
         - [ ] MongoDB
+    - [ ] Redis
     - [ ] Connection
 - [ ] Build an API from Scratch
     - [ ] Database Connection
@@ -33,9 +37,11 @@
     - [ ] SOLID
     - [ ] TDD
     - Choose one:
-        - [ ] DDD
-        - [ ] BDD
-
+        - ~DDD~
+        - ~BDD~
+        - [x] MVC Laravel-ish
+    - I didn't find a great and concrete sample/example of a Golang project(or any other language) in DDD
+    - So I'm gonna stick with the _MVC-ish_ pattern
 ### DevOps
 - [ ] Choose one CI/CD
     - [ ] Jenkins
@@ -65,3 +71,21 @@
     - [ ] AWS
     - [ ] Digital Ocean
     - [ ] Linode
+
+## Project Folder Structure
+### _.docker/_
+### _app/_
+- _helpers/_
+- _http/_
+    - _controllers/_
+    - _middlewares/_ 
+- _models/_
+- _repositories/_
+### _cmd/_
+### _config/_
+### _database/_
+- _factories/_
+- _migrations/_
+- _seeders/_
+### _routes/_
+### _tests/_
