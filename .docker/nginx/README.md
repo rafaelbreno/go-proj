@@ -33,3 +33,28 @@
     - Set the maximum number of simultaneous connections that can be opened by a worker process
 ##### `http`
 - [Doc](https://nginx.org/en/docs/http/ngx_http_core_module.html#http)
+- _"Provides the configuration file context in which the HTTP server directives are specified."_
+- `upstream app`
+    - [Doc](http://nginx.org/en/docs/http/ngx_http_upstream_module.html)
+    - _"Is used to define groups of servers that can be referenced"_
+    - `least_conn`
+        - [Doc](http://nginx.org/en/docs/http/ngx_http_upstream_module.html#least_conn)
+        - _"Specifies that a group should use a load balancing method where a request is passed to the server with the least number of active connections"_
+    - `server`
+        - [Doc](http://nginx.org/en/docs/http/ngx_http_upstream_module.html#server)
+        - _"Defines the address and other parameters of a server. The address can be specified as a domain name or IP address, with an optional port"_
+- `server`
+    - [Doc](https://nginx.org/en/docs/http/configuring_https_servers.html)
+    - `listen 80;`
+        - [Doc](https://nginx.org/en/docs/http/ngx_http_core_module.html#listen)
+        - Set an address and port for IP 
+    - `server_name 0.0.0.0;`
+        - [Doc](https://nginx.org/en/docs/http/ngx_http_core_module.html#server_name)
+        - _"Sets names of a virtual server"_
+    - `location /`
+        - [Doc](https://nginx.org/en/docs/http/ngx_http_core_module.html#location)
+        - This context will allow us to write different configurations for different files, folder, and regex patterns
+        - [proxy_pass](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass)
+        - [proxy_http_version](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_http_version)
+        - [proxy_set_header](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_set_header)
+        - [proxy_cache_bypass](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_bypass)
