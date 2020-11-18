@@ -2,6 +2,8 @@
 # Version of docker-compose
 version: "3.8"
 # Services/Container that will be built
+env_file:
+    - .env
 services:
     # Service Name
     nginx:
@@ -24,7 +26,6 @@ services:
         # depends on, so they will be mounted/built before
         depends_on:
             - "app"
-        #    - "db"
     app:
         build:
             context: .
@@ -36,4 +37,30 @@ services:
             - "8080"
         volumes:
             - ./:/var/www/html
-
+        depends_on:
+            - "postgres"
+            - "postgres-test"
+    postgres:
+        build:
+            context: .
+            dockerfile: .docker/postgresql/Dockerfile
+        ports:
+            - "${POSTGRES_PORT}:5432"
+        image: go-proj-postgres
+        container_name: go-proj-postgres
+        environment:
+            - POSTGRES_DB=${POSTGRES_DB}
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    postgres-test:
+        build:
+            context: .
+            dockerfile: .docker/postgresql/Dockerfile
+        ports:
+            - "${POSTGRES_TEST_PORT}:5432"
+        image: go-proj-postgres-test
+        container_name: go-proj-postgres-test
+        environment:
+            - POSTGRES_DB=${POSTGRES_TEST_DB}
+            - POSTGRES_USER=${POSTGRES_TEST_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_TEST_PASSWORD}
