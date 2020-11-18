@@ -2,8 +2,6 @@
 # Version of docker-compose
 version: "3.8"
 # Services/Container that will be built
-env_file:
-    - .env
 services:
     # Service Name
     nginx:
