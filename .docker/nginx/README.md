@@ -19,12 +19,12 @@
 #### _conf/nginx.conf_
 - [NGINX Doc](https://nginx.org/en/docs/)
 ##### `worker_processes auto;`
-    - [Doc](http://nginx.org/en/docs/ngx_core_module.html#worker_processes)
-    - This define the number of worker processes ~obviously~
-    - The number of workers to be optimal depends on(but not limited to):
-        - Number of CPU cores
-        - Number of data HD
-        - Load Pattern
+- [Doc](http://nginx.org/en/docs/ngx_core_module.html#worker_processes)
+- This define the number of worker processes ~obviously~
+- The number of workers to be optimal depends on(but not limited to):
+    - Number of CPU cores
+    - Number of data HD
+    - Load Pattern
 ##### `events`
 - [Doc](https://nginx.org/en/docs/ngx_core_module.html#events)
 - _"Provides the configuration file context in which the directives that affect connection processing are specified."_
@@ -58,3 +58,4 @@
         - [proxy_http_version](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_http_version)
         - [proxy_set_header](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_set_header)
         - [proxy_cache_bypass](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_bypass)
+
