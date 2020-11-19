@@ -47,6 +47,7 @@ services:
         image: go-proj-postgres
         container_name: go-proj-postgres
         environment:
+            - PGDATA=${POSTGRES_DATA}
             - POSTGRES_DB=${POSTGRES_DB}
             - POSTGRES_USER=${POSTGRES_USER}
             - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -59,6 +60,7 @@ services:
         image: go-proj-postgres-test
         container_name: go-proj-postgres-test
         environment:
+            - PGDATA=${POSTGRES_TEST_DATA}
             - POSTGRES_DB=${POSTGRES_TEST_DB}
             - POSTGRES_USER=${POSTGRES_TEST_USER}
             - POSTGRES_PASSWORD=${POSTGRES_TEST_PASSWORD}
