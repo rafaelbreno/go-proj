@@ -19,7 +19,7 @@ services:
         # Expose ports
         # HOST:CONTAINER
         ports:
-            - "8090:80"
+            - "${APP_PORT}:80"
         # This will define the Services that this service
         # depends on, so they will be mounted/built before
         depends_on:
