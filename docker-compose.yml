@@ -13,9 +13,9 @@ services:
             # the previous defined context
             dockerfile: .docker/nginx/Dockerfile
         # Image name/ID
-        image: go-proj-nginx
+        image: ${NGINX_NAME}
         # Custom name for the container
-        container_name: go-proj-nginx
+        container_name: ${NGINX_NAME}
         # Expose ports
         # HOST:CONTAINER
         ports:
@@ -28,8 +28,8 @@ services:
         build:
             context: .
             dockerfile: .docker/go/Dockerfile
-        image: go-proj-app 
-        container_name: go-proj-app
+        image: ${APP_NAME}
+        container_name: ${APP_NAME}
         restart: always
         ports:
             - "8080"
@@ -44,8 +44,8 @@ services:
             dockerfile: .docker/postgresql/Dockerfile
         ports:
             - "${POSTGRES_PORT}:5432"
-        image: go-proj-postgres
-        container_name: go-proj-postgres
+        image: ${POSTGRES_NAME}
+        container_name: ${POSTGRES_NAME}
         environment:
             - PGDATA=${POSTGRES_DATA}
             - POSTGRES_DB=${POSTGRES_DB}
@@ -57,8 +57,8 @@ services:
             dockerfile: .docker/postgresql/Dockerfile
         ports:
             - "${POSTGRES_TEST_PORT}:5432"
-        image: go-proj-postgres-test
-        container_name: go-proj-postgres-test
+        image: ${POSTGRES_TEST_NAME} 
+        container_name: ${POSTGRES_TEST_NAME}
         environment:
             - PGDATA=${POSTGRES_TEST_DATA}
             - POSTGRES_DB=${POSTGRES_TEST_DB}

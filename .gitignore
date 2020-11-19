@@ -4,3 +4,6 @@
 
 # Environment files
 .env
+
+# Generated files - tmp
+tmp/
