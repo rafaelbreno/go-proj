@@ -18,15 +18,15 @@
 
 ### Application
 - [x] __FOCUS ON GOROUTINES__
-- [ ] WebServer
-    - [ ] Nginx
+- [x] WebServer
+    - [x] Nginx
 - [ ] Database
-    - [ ] Choose one:
-        - [ ] MySQL
-        - [ ] PostgreSQL
-        - [ ] MongoDB
+    - [x] Choose one:
+        - ~MySQL~
+        - [x] PostgreSQL
+        - ~MongoDB~
     - [ ] Redis
-    - [ ] Connection
+    - [x] Connection
 - [ ] Build an API from Scratch
     - [ ] Database Connection
     - [ ] OAuth2
