@@ -17,21 +17,15 @@ type List struct {
 	Status uint
 }
 
-type ListInput struct {
+// For store method
+type CreateListInput struct {
 	UserId uint   `json:"user_id" binding:"required"`
 	Title  string `json:"title" binding:"required"`
 	Status uint   `json:"status" binding:"required"`
 }
 
-type ListUpdate struct {
-	Title  string `json:"title" binding:"required"`
-	Status uint   `json:"status" binding:"required"`
-}
-
-type ListRepository interface {
-	All() (*[]List, error)
-	FindById(id uint) (*List, error)
-	Store(list *List) (*List, error)
-	Update(list *List, id uint) (*List, error)
-	Delete(list *List) error
+// For update method
+type UpdateListInput struct {
+	Title  string `json:"title"`
+	Status uint   `json:"status"`
 }
