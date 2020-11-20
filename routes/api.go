@@ -23,4 +23,6 @@ func listRoutes() {
 	r.GET("/list", controllers.Index)
 	r.GET("/list/:id", controllers.Show)
 	r.POST("/list", controllers.Store)
+	r.PUT("/list/:id", controllers.Update)
+	r.DELETE("/list/:id", controllers.Delete)
 }
