@@ -27,8 +27,11 @@
         - ~MongoDB~
     - [ ] Redis
     - [x] Connection
-- [ ] Build an API from Scratch
-    - [ ] Database Connection
+- [ ] Build an API
+    - [x] Database Connection
+    - [ ] Simple TODO
+        - [ ] TODO List
+        - [ ] TODO Items
     - [ ] OAuth2
 - [ ] Explode Functionalities into Microservices
 
