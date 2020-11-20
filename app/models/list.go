@@ -23,6 +23,11 @@ type ListInput struct {
 	Status uint   `json:"status" binding:"required"`
 }
 
+type ListUpdate struct {
+	Title  string `json:"title" binding:"required"`
+	Status uint   `json:"status" binding:"required"`
+}
+
 type ListRepository interface {
 	All() (*[]List, error)
 	FindById(id uint) (*List, error)
