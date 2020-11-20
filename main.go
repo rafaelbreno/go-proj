@@ -1,13 +1,17 @@
 package main
 
 import (
-	"fmt"
-	"net/http"
+	"github.com/gin-gonic/gin"
+	"go-proj/app/controllers"
+	"go-proj/app/models"
 )
 
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
-		fmt.Fprint(w, "Hello, World")
-	})
-	http.ListenAndServe(":8080", nil)
+	r := gin.Default()
+
+	models.ConnectDatabase()
+
+	r.GET("/", controllers.Index)
+
+	r.Run(":8080")
 }
