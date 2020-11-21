@@ -20,9 +20,11 @@ func Init() {
 }
 
 func listRoutes() {
-	r.GET("/list", controllers.Index)
-	r.GET("/list/:id", controllers.Show)
-	r.POST("/list", controllers.Store)
-	r.PUT("/list/:id", controllers.Update)
-	r.DELETE("/list/:id", controllers.Delete)
+	controller := controllers.ListController{}
+
+	r.GET("/list", controller.Index)
+	r.GET("/list/:id", controller.Show)
+	r.POST("/list", controller.Store)
+	r.PUT("/list/:id", controller.Update)
+	r.DELETE("/list/:id", controller.Delete)
 }

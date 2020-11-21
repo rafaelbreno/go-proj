@@ -7,14 +7,16 @@ import (
 	"reflect"
 )
 
-func Index(c *gin.Context) {
+type ListController struct{}
+
+func (_ ListController) Index(c *gin.Context) {
 	var lists []models.List
 	models.DB.Find(&lists)
 
 	c.JSON(http.StatusOK, gin.H{"data": lists})
 }
 
-func Store(c *gin.Context) {
+func (_ ListController) Store(c *gin.Context) {
 	var input models.CreateListInput
 
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -33,7 +35,7 @@ func Store(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": list})
 }
 
-func Show(c *gin.Context) {
+func (_ ListController) Show(c *gin.Context) {
 	var list models.List
 
 	if err := models.DB.Where("id = ?", c.Param("id")).First(&list).Error; err != nil {
@@ -44,7 +46,7 @@ func Show(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": list})
 }
 
-func Update(c *gin.Context) {
+func (_ ListController) Update(c *gin.Context) {
 	var list models.List
 	if err := models.DB.Where("id = ?", c.Param("id")).First(&list).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found"})
@@ -87,7 +89,7 @@ func Update(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": list})
 }
 
-func Delete(c *gin.Context) {
+func (_ ListController) Delete(c *gin.Context) {
 	var list models.List
 
 	if err := models.DB.Where("id = ?", c.Param("id")).First(&list).Error; err != nil {
