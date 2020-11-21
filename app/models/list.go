@@ -12,6 +12,7 @@ import (
  **/
 type List struct {
 	gorm.Model
+	Tasks  []Task `gorm:"foreignKey:ListId"`
 	UserId uint
 	Title  string
 	Status uint
