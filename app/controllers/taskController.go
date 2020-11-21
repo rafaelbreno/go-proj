@@ -11,9 +11,24 @@ type TaskController struct{}
 
 func (_ TaskController) Index(c *gin.Context) {
 	var tasks []models.Task
-	models.DB.Find(&tasks)
+	var list models.List
 
-	c.JSON(http.StatusOK, gin.H{"data": tasks})
+	if err := models.DB.First(&list, "id = ?", c.Param("id")).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "List not found"})
+		return
+	}
+
+	if err := models.DB.Where("list_id = ?", c.Param("id")).Find(&tasks).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "There's not task in this list"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"data": gin.H{
+			"tasks": tasks,
+			"list":  list,
+		},
+	})
 }
 
 func (_ TaskController) Store(c *gin.Context) {
