@@ -14,17 +14,32 @@ func Init() {
 	models.ConnectDatabase()
 
 	listRoutes()
+	taskRoutes()
 
 	// Same port as go/Dockerfile
 	r.Run(":8080")
 }
 
+func taskRoutes() {
+	controller := controllers.TaskController{}
+	taskGroup := r.Group("/task")
+	{
+		taskGroup.GET("/", controller.Index)
+		taskGroup.GET("/:id", controller.Show)
+		taskGroup.POST("/", controller.Store)
+		taskGroup.PUT("/:id", controller.Update)
+		taskGroup.DELETE("/:id", controller.Delete)
+	}
+}
+
 func listRoutes() {
 	controller := controllers.ListController{}
-
-	r.GET("/list", controller.Index)
-	r.GET("/list/:id", controller.Show)
-	r.POST("/list", controller.Store)
-	r.PUT("/list/:id", controller.Update)
-	r.DELETE("/list/:id", controller.Delete)
+	listGroup := r.Group("/list")
+	{
+		listGroup.GET("/", controller.Index)
+		listGroup.GET("/:id", controller.Show)
+		listGroup.POST("/", controller.Store)
+		listGroup.PUT("/:id", controller.Update)
+		listGroup.DELETE("/:id", controller.Delete)
+	}
 }
