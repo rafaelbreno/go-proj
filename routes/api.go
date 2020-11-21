@@ -22,9 +22,11 @@ func Init() {
 
 func taskRoutes() {
 	controller := controllers.TaskController{}
+
+	r.GET("/tasks/:id", controller.Index)
+
 	taskGroup := r.Group("/task")
 	{
-		taskGroup.GET("/", controller.Index)
 		taskGroup.GET("/:id", controller.Show)
 		taskGroup.POST("/", controller.Store)
 		taskGroup.PUT("/:id", controller.Update)
