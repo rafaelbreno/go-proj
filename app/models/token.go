@@ -42,10 +42,13 @@ func (t *Token) SetJWT(userID uint) error {
 	t.UserId = userID
 	t.Authorized = true
 
-	at := jwt.NewWithClaims(jwt.SigningMethodHS256, t.setClaim())
+	atClaims, rtClaims := t.setClaim()
+
+	at := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)
+	rt := jwt.NewWithClaims(jwt.SigningMethodHS256, rtClaims)
 
 	t.AccessToken, err = at.SignedString([]byte(secret))
-	t.RefreshToken, err = at.SignedString([]byte(refresh_secret))
+	t.RefreshToken, err = rt.SignedString([]byte(refresh_secret))
 
 	if err != nil {
 		return err
@@ -98,12 +101,19 @@ func (t *Token) setAuth() error {
 	return nil
 }
 
-func (t *Token) setClaim() jwt.MapClaims {
+func (t *Token) setClaim() (jwt.MapClaims, jwt.MapClaims) {
 	atClaims := jwt.MapClaims{}
+	rtClaims := jwt.MapClaims{}
 
 	atClaims["authorized"] = t.Authorized
 	atClaims["user_id"] = t.UserId
 	atClaims["expire_at"] = t.ExpireAt
+	atClaims["access_uuid"] = t.AccessUuid
 
-	return atClaims
+	rtClaims["authorized"] = t.Authorized
+	rtClaims["user_id"] = t.UserId
+	rtClaims["expire_at"] = t.RefreshAt
+	rtClaims["refresh_uuid"] = t.RefreshUuid
+
+	return atClaims, rtClaims
 }
