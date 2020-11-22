@@ -7,4 +7,4 @@
     - [Nginx](https://github.com/rafaelbreno/go-proj/tree/master/.docker/nginx)
     - [Golang](https://github.com/rafaelbreno/go-proj/tree/master/.docker/go)
     - [PostgreSQL](https://github.com/rafaelbreno/go-proj/tree/master/.docker/postgresql)
-
+    - [Redis](https://github.com/rafaelbreno/go-proj/tree/master/.docker/redis)
