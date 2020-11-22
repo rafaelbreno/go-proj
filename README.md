@@ -26,13 +26,22 @@
         - [x] PostgreSQL
         - ~MongoDB~
     - [ ] Redis
-    - [x] Connection
+    - [ ] Connection
+        - [x] Postgres
+        - [ ] Redis
 - [ ] Build an API
     - [x] Database Connection
-    - [ ] Simple TODO
-        - [ ] TODO List
-        - [ ] TODO Items
-    - [ ] OAuth2
+    - [x] Simple TODO
+        - [x] TODO List
+        - [x] TODO Items
+    - [ ] User CRUD
+        - [x] Sign Up (_registration_)
+        - [ ] Sign In (_login_)
+        - [ ] Sign off
+        - [ ] Update
+        - [ ] Delete
+    - [ ] JWT
+        - [x] Creating Token
 - [ ] Explode Functionalities into Microservices
 
 ### Development Pattern
