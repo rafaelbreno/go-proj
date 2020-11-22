@@ -15,9 +15,15 @@ func Init() {
 
 	listRoutes()
 	taskRoutes()
-
+	authRoutes()
 	// Same port as go/Dockerfile
 	r.Run(":8080")
+}
+
+func authRoutes() {
+	controller := controllers.UserController{}
+
+	r.POST("/signup", controller.Signup)
 }
 
 func taskRoutes() {
