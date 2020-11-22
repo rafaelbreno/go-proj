@@ -10,7 +10,7 @@ var DB *gorm.DB
 func ConnectDatabase() {
 	mig := database.Conn()
 
-	mig.AutoMigrate(&List{}, &Task{})
+	mig.AutoMigrate(&List{}, &Task{}, &User{})
 
 	DB = mig
 }
