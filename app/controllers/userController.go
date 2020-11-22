@@ -10,7 +10,7 @@ import (
 
 type UserController struct{}
 
-func (_ UserController) Signup(c *gin.Context) {
+func (_ UserController) SignUp(c *gin.Context) {
 	var input models.CreateUserInput
 
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -48,8 +48,42 @@ func (_ UserController) Signup(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"data": gin.H{
-			"user":  user,
-			"token": token,
+			"user": user,
+		},
+	})
+}
+
+func (_ UserController) SignIn(c *gin.Context) {
+	var input, user models.User
+
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := models.DB.Where("email = ?", input.Email).First(&user).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := helpers.VerifyPassword(input.Password, user.Password); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	var token models.Token
+
+	err := token.SetJWT(user.ID)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"data": gin.H{
+			"access_token":  token.AccessToken,
+			"refresh_token": token.RefreshToken,
 		},
 	})
 }

@@ -23,7 +23,8 @@ func Init() {
 func authRoutes() {
 	controller := controllers.UserController{}
 
-	r.POST("/signup", controller.Signup)
+	r.POST("/signup", controller.SignUp)
+	r.POST("/signin", controller.SignIn)
 }
 
 func taskRoutes() {
