@@ -3,6 +3,7 @@ package routes
 import (
 	"github.com/gin-gonic/gin"
 	"go-proj/app/controllers"
+	"go-proj/app/middlewares"
 	"go-proj/app/models"
 )
 
@@ -11,10 +12,18 @@ var r *gin.Engine
 func Init() {
 	r = gin.Default()
 
+	midd := middlewares.Auth{}
+
+	auth := r.Group("/")
+
+	auth.Use(midd.Auth())
+	{
+		taskRoutes(auth)
+		listRoutes(auth)
+	}
+
 	models.ConnectDatabase()
 
-	listRoutes()
-	taskRoutes()
 	authRoutes()
 	// Same port as go/Dockerfile
 	r.Run(":8080")
@@ -27,12 +36,12 @@ func authRoutes() {
 	r.POST("/signin", controller.SignIn)
 }
 
-func taskRoutes() {
+func taskRoutes(rt *gin.RouterGroup) {
 	controller := controllers.TaskController{}
 
-	r.GET("/tasks/:id", controller.Index)
+	rt.GET("/tasks/:id", controller.Index)
 
-	taskGroup := r.Group("/task")
+	taskGroup := rt.Group("/task")
 	{
 		taskGroup.GET("/:id", controller.Show)
 		taskGroup.POST("/", controller.Store)
@@ -41,9 +50,9 @@ func taskRoutes() {
 	}
 }
 
-func listRoutes() {
+func listRoutes(rl *gin.RouterGroup) {
 	controller := controllers.ListController{}
-	listGroup := r.Group("/list")
+	listGroup := rl.Group("/list")
 	{
 		listGroup.GET("/", controller.Index)
 		listGroup.GET("/:id", controller.Show)
