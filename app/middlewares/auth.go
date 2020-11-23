@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 )
 
 type Auth struct {
@@ -20,7 +21,7 @@ type Auth struct {
 	UserId      uint
 }
 
-func (a Auth) Auth() gin.HandlerFunc {
+func (a *Auth) Auth() gin.HandlerFunc {
 
 	if err := godotenv.Load(); err != nil {
 		panic(err)
@@ -29,7 +30,8 @@ func (a Auth) Auth() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var err error
 		a.ctx = c
-		a.headerToken = c.GetHeader("Authorization")
+
+		a.splitToken()
 
 		if err := a.getToken(); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -46,7 +48,7 @@ func (a Auth) Auth() gin.HandlerFunc {
 	}
 }
 
-func (a Auth) getToken() error {
+func (a *Auth) getToken() error {
 	if a.headerToken == "" {
 		a.ctx.JSON(http.StatusForbidden, gin.H{"error": "Empty Token"})
 		return fmt.Errorf("Empty token")
@@ -64,7 +66,7 @@ func (a Auth) getToken() error {
 	return err
 }
 
-func (a Auth) checkToken() error {
+func (a *Auth) checkToken() error {
 	claims, ok := a.Token.Claims.(jwt.MapClaims)
 	if err := a.getToken(); err != nil {
 		a.ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -79,7 +81,16 @@ func (a Auth) checkToken() error {
 	return nil
 }
 
-func (a Auth) checkMetadata() error {
+func (a *Auth) splitToken() {
+	bearerToken := a.ctx.Request.Header.Get("Authorization")
+
+	strArr := strings.Split(bearerToken, " ")
+	if len(strArr) == 2 {
+		a.headerToken = strArr[1]
+
+	}
+}
+func (a *Auth) checkMetadata() error {
 	accessUuid, ok := a.Claims["access_uuid"].(string)
 	if !ok {
 		return fmt.Errorf("Couldn't claim index: access_uuid")
@@ -97,7 +108,7 @@ func (a Auth) checkMetadata() error {
 	return nil
 }
 
-func (a Auth) fetchToken() error {
+func (a *Auth) fetchToken() error {
 	id, err := models.Redis.Get(a.ctx, a.AccessUuid).Result()
 	if err != nil {
 		return err
