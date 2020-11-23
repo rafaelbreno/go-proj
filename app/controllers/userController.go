@@ -4,11 +4,14 @@ import (
 	"errors"
 	"github.com/gin-gonic/gin"
 	"go-proj/app/helpers"
+	"go-proj/app/middlewares"
 	"go-proj/app/models"
 	"net/http"
 )
 
-type UserController struct{}
+type UserController struct {
+	Auth middlewares.Auth
+}
 
 func (_ UserController) SignUp(c *gin.Context) {
 	var input models.CreateUserInput
@@ -48,7 +51,9 @@ func (_ UserController) SignUp(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"data": gin.H{
-			"user": user,
+			"user":          user,
+			"access_token":  token.AccessToken,
+			"refresh_token": token.RefreshToken,
 		},
 	})
 }
@@ -86,4 +91,17 @@ func (_ UserController) SignIn(c *gin.Context) {
 			"refresh_token": token.RefreshToken,
 		},
 	})
+}
+
+func (u *UserController) Logout(c *gin.Context) {
+	u.Auth.GetAuth(c)
+
+	deleted, err := models.Redis.Del(c, u.Auth.AccessUuid).Result()
+
+	if err != nil || deleted == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Successfully logged out!"})
 }
