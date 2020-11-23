@@ -3,6 +3,7 @@ package models
 import (
 	"context"
 	"github.com/dgrijalva/jwt-go"
+	"github.com/go-redis/redis/v8"
 	"github.com/google/uuid"
 	"github.com/joho/godotenv"
 	"os"
@@ -22,6 +23,8 @@ type Token struct {
 	RefreshToken string
 	AccessUuid   string
 	RefreshUuid  string
+
+	Redis *redis.Client
 }
 
 func (t *Token) SetJWT(userID uint) error {
