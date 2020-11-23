@@ -21,6 +21,47 @@ type Auth struct {
 	UserId      uint
 }
 
+func (a *Auth) GetAuth(c *gin.Context) {
+	a.ctx = c
+
+	//var err error
+
+	a.splitToken()
+
+	if err := a.getToken(); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error-func": "GetAuth - a.getToken()",
+			"error":      err.Error(),
+		})
+
+		return
+	}
+
+	if err := a.checkToken(); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error-func": "GetAuth - a.checkToken()",
+			"error":      err.Error(),
+		})
+		return
+	}
+
+	if err := a.checkMetadata(); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error-func": "GetAuth - a.checkMetadata()",
+			"error":      err.Error(),
+		})
+		return
+	}
+
+	if err := a.fetchAuth(); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error-func": "GetAuth - a.fetchAuth()",
+			"error":      err.Error(),
+		})
+		return
+	}
+}
+
 func (a *Auth) Auth() gin.HandlerFunc {
 
 	if err := godotenv.Load(); err != nil {
@@ -28,21 +69,39 @@ func (a *Auth) Auth() gin.HandlerFunc {
 	}
 
 	return func(c *gin.Context) {
-		var err error
 		a.ctx = c
 
 		a.splitToken()
 
 		if err := a.getToken(); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error-func": "Auth - a.getToken()",
+				"error":      err.Error(),
+			})
+			return
 		}
 
 		if err := a.checkToken(); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error-func": "Auth - a.checkToken()",
+				"error":      err.Error(),
+			})
+			return
 		}
 
-		if err != nil {
-			c.JSON(http.StatusForbidden, gin.H{"error": "Not authorized"})
+		if err := a.checkMetadata(); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error-func": "Auth - a.checkMetadata()",
+				"error":      err.Error(),
+			})
+			return
+		}
+
+		if err := a.fetchAuth(); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error-func": "GetAuth - a.fetchAuth()",
+				"error":      err.Error(),
+			})
 			return
 		}
 	}
