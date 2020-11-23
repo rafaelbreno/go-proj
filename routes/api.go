@@ -20,6 +20,13 @@ func Init() {
 	{
 		taskRoutes(auth)
 		listRoutes(auth)
+
+		/* Delete method because
+		 * it's deleting a
+		 * Redis record :)
+		**/
+		u := controllers.UserController{}
+		auth.DELETE("/logout", u.Logout)
 	}
 
 	models.ConnectDatabase()
