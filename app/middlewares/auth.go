@@ -126,3 +126,14 @@ func (a *Auth) fetchToken() error {
 
 	return nil
 }
+
+func (a *Auth) fetchAuth() error {
+	client := models.Redis
+	_, err := client.Get(a.ctx, a.AccessUuid).Result()
+
+	if err != nil {
+		return fmt.Errorf("Token not found")
+	}
+
+	return nil
+}
