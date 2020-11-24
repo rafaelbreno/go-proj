@@ -27,6 +27,7 @@ func Init() {
 		**/
 		u := controllers.UserController{}
 		auth.DELETE("/logout", u.Logout)
+		auth.POST("/refresh/token", u.Refresh)
 	}
 
 	models.ConnectDatabase()
