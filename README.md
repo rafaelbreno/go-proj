@@ -25,10 +25,12 @@
         - ~MySQL~
         - [x] PostgreSQL
         - ~MongoDB~
-    - [ ] Redis
-    - [ ] Connection
+    - [x] Redis
+    - [x] Connection
         - [x] Postgres
-        - [ ] Redis
+        - [x] Redis
+    - [x] Migrations
+    - [ ] Seeding
 - [ ] Build an API
     - [x] Database Connection
     - [x] Simple TODO
@@ -36,12 +38,14 @@
         - [x] TODO Items
     - [ ] User CRUD
         - [x] Sign Up (_registration_)
-        - [ ] Sign In (_login_)
-        - [ ] Sign off
+        - [x] Sign In (_login_)
+        - [x] Sign off
         - [ ] Update
         - [ ] Delete
     - [ ] JWT
         - [x] Creating Token
+        - [x] Deleting Token
+        - [ ] Refreshing Token
 - [ ] Explode Functionalities into Microservices
 
 ### Development Pattern
