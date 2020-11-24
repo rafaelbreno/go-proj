@@ -24,8 +24,6 @@ type Auth struct {
 func (a *Auth) GetAuth(c *gin.Context) {
 	a.ctx = c
 
-	//var err error
-
 	a.splitToken()
 
 	if err := a.getToken(); err != nil {
@@ -33,7 +31,7 @@ func (a *Auth) GetAuth(c *gin.Context) {
 			"error-func": "GetAuth - a.getToken()",
 			"error":      err.Error(),
 		})
-
+		c.Abort()
 		return
 	}
 
@@ -42,6 +40,7 @@ func (a *Auth) GetAuth(c *gin.Context) {
 			"error-func": "GetAuth - a.checkToken()",
 			"error":      err.Error(),
 		})
+		c.Abort()
 		return
 	}
 
@@ -50,6 +49,7 @@ func (a *Auth) GetAuth(c *gin.Context) {
 			"error-func": "GetAuth - a.checkMetadata()",
 			"error":      err.Error(),
 		})
+		c.Abort()
 		return
 	}
 
@@ -58,6 +58,7 @@ func (a *Auth) GetAuth(c *gin.Context) {
 			"error-func": "GetAuth - a.fetchAuth()",
 			"error":      err.Error(),
 		})
+		c.Abort()
 		return
 	}
 }
@@ -78,6 +79,7 @@ func (a *Auth) Auth() gin.HandlerFunc {
 				"error-func": "Auth - a.getToken()",
 				"error":      err.Error(),
 			})
+			c.Abort()
 			return
 		}
 
@@ -86,6 +88,7 @@ func (a *Auth) Auth() gin.HandlerFunc {
 				"error-func": "Auth - a.checkToken()",
 				"error":      err.Error(),
 			})
+			c.Abort()
 			return
 		}
 
@@ -94,6 +97,7 @@ func (a *Auth) Auth() gin.HandlerFunc {
 				"error-func": "Auth - a.checkMetadata()",
 				"error":      err.Error(),
 			})
+			c.Abort()
 			return
 		}
 
@@ -102,6 +106,7 @@ func (a *Auth) Auth() gin.HandlerFunc {
 				"error-func": "GetAuth - a.fetchAuth()",
 				"error":      err.Error(),
 			})
+			c.Abort()
 			return
 		}
 	}
