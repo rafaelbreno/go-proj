@@ -42,15 +42,15 @@
         - [x] Sign off
         - [ ] Update
         - [ ] Delete
-    - [ ] JWT
+    - [x] JWT
         - [x] Creating Token
         - [x] Deleting Token
-        - [ ] Refreshing Token
+        - [x] Refreshing Token
 - [ ] Explode Functionalities into Microservices
 
 ### Development Pattern
 - [ ] Implement some design pattern
-    - [ ] SOLID
+    - [x] SOLID
     - [ ] TDD
     - Choose one:
         - ~DDD~
