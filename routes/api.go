@@ -9,6 +9,14 @@ import (
 
 var r *gin.Engine
 
+func GetTestRouter() *gin.Engine {
+	r := gin.Default()
+
+	models.ConnectTestDatabase()
+
+	return r
+}
+
 func Init() {
 	r = gin.Default()
 

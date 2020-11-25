@@ -10,6 +10,16 @@ var DB *gorm.DB
 
 var Redis *redis.Client
 
+func ConnectTestDatabase() {
+	mig := database.TestConn()
+
+	mig.AutoMigrate(&List{}, &Task{}, &User{})
+
+	DB = mig
+
+	Redis = database.Redis()
+}
+
 func ConnectDatabase() {
 	mig := database.Conn()
 
