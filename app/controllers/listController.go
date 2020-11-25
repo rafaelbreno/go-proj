@@ -7,17 +7,25 @@ import (
 	"reflect"
 )
 
-type ListController struct{}
-
-func (_ ListController) Index(c *gin.Context) {
-	var lists []models.List
-	models.DB.Find(&lists)
-
-	c.JSON(http.StatusOK, gin.H{"data": lists})
+type ListController struct {
+	User UserController
 }
 
-func (_ ListController) Store(c *gin.Context) {
+func (l *ListController) Index(c *gin.Context) {
+	var lists []models.List
+
+	l.User.Auth.GetAuth(c)
+
+	models.DB.Find(&lists).Where("user_id = ?", l.User.Auth.UserId)
+
+	c.JSON(http.StatusOK, gin.H{
+		"data": lists,
+	})
+}
+
+func (l ListController) Store(c *gin.Context) {
 	var input models.CreateListInput
+	l.User.Auth.GetAuth(c)
 
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -25,7 +33,7 @@ func (_ ListController) Store(c *gin.Context) {
 	}
 
 	list := models.List{
-		UserId: input.UserId,
+		UserId: l.User.Auth.UserId,
 		Title:  input.Title,
 		Status: input.Status,
 	}
@@ -35,10 +43,11 @@ func (_ ListController) Store(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": list})
 }
 
-func (_ ListController) Show(c *gin.Context) {
+func (l ListController) Show(c *gin.Context) {
 	var list models.List
+	l.User.Auth.GetAuth(c)
 
-	if err := models.DB.Where("id = ?", c.Param("id")).First(&list).Error; err != nil {
+	if err := models.DB.Where("id = ? AND user_id = ?", c.Param("id"), l.User.Auth.UserId).First(&list).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found"})
 		return
 	}
@@ -46,9 +55,11 @@ func (_ ListController) Show(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": list})
 }
 
-func (_ ListController) Update(c *gin.Context) {
+func (l ListController) Update(c *gin.Context) {
 	var list models.List
-	if err := models.DB.Where("id = ?", c.Param("id")).First(&list).Error; err != nil {
+	l.User.Auth.GetAuth(c)
+
+	if err := models.DB.Where("id = ? AND user_id = ?", c.Param("id"), l.User.Auth.UserId).First(&list).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found"})
 		return
 	}
@@ -89,10 +100,11 @@ func (_ ListController) Update(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": list})
 }
 
-func (_ ListController) Delete(c *gin.Context) {
+func (l ListController) Delete(c *gin.Context) {
 	var list models.List
+	l.User.Auth.GetAuth(c)
 
-	if err := models.DB.Where("id = ?", c.Param("id")).First(&list).Error; err != nil {
+	if err := models.DB.Where("id = ? AND user_id = ?", c.Param("id"), l.User.Auth.UserId).First(&list).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found"})
 		return
 	}

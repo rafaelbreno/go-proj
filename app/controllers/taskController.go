@@ -7,19 +7,23 @@ import (
 	"reflect"
 )
 
-type TaskController struct{}
+type TaskController struct {
+	User UserController
+}
 
-func (_ TaskController) Index(c *gin.Context) {
+func (t *TaskController) Index(c *gin.Context) {
 	var tasks []models.Task
 	var list models.List
 
-	if err := models.DB.First(&list, "id = ?", c.Param("id")).Error; err != nil {
+	t.User.Auth.GetAuth(c)
+
+	if err := models.DB.First(&list, "id = ? AND user_id = ?", c.Param("id"), t.User.Auth.UserId).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "List not found"})
 		return
 	}
 
 	if err := models.DB.Where("list_id = ?", c.Param("id")).Find(&tasks).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "There's not task in this list"})
+		c.JSON(http.StatusOK, gin.H{"error": "There's not task in this list"})
 		return
 	}
 
