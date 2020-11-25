@@ -20,7 +20,6 @@ type List struct {
 
 // For store method
 type CreateListInput struct {
-	UserId uint   `json:"user_id" binding:"required"`
 	Title  string `json:"title" binding:"required"`
 	Status uint   `json:"status" binding:"required"`
 }
