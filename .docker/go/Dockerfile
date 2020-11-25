@@ -9,6 +9,8 @@ RUN go mod download
 
 COPY . /app
 
+ENV CGO_ENABLED=0
+
 # https://golang.org/cmd/go/#hdr-Compile_packages_and_dependencies
 # go -> golang command
 # build -> to build the app into a binary
