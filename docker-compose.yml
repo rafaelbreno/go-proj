@@ -52,22 +52,6 @@ services:
             - POSTGRES_DB=${POSTGRES_DB}
             - POSTGRES_USER=${POSTGRES_USER}
             - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-    # This will be implemented in the future 
-    # A DB only for testing purposes
-    # Maybe will be creating the same but for Redis
-    postgres-test:
-        build:
-            context: .
-            dockerfile: .docker/postgresql/Dockerfile
-        ports:
-            - "${POSTGRES_TEST_PORT}:5432"
-        image: ${POSTGRES_TEST_NAME} 
-        container_name: ${POSTGRES_TEST_NAME}
-        environment:
-            - PGDATA=${POSTGRES_TEST_DATA}
-            - POSTGRES_DB=${POSTGRES_TEST_DB}
-            - POSTGRES_USER=${POSTGRES_TEST_USER}
-            - POSTGRES_PASSWORD=${POSTGRES_TEST_PASSWORD}
     redis:
         build:
             context: .
