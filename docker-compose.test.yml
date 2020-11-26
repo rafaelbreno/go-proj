@@ -1,0 +1,65 @@
+# Docs: https://docs.docker.com/compose/compose-file/ 
+# Version of docker-compose
+version: "3.8"
+# Services/Container that will be built
+services:
+    # Service Name
+    nginx:
+        build:
+            # Path to a directory that will be used
+            # as context to find the dockerfile
+            context: .
+            # Dockerfile path from the "vision" of
+            # the previous defined context
+            dockerfile: .docker/nginx/Dockerfile
+        # Image name/ID
+        image: ${NGINX_NAME}
+        # Custom name for the container
+        container_name: ${NGINX_NAME}
+        # Expose ports
+        # HOST:CONTAINER
+        ports:
+            - "${APP_PORT}:80"
+        # This will define the Services that this service
+        # depends on, so they will be mounted/built before
+        depends_on:
+            - "app"
+    app:
+        build:
+            context: .
+            dockerfile: .docker/go/Dockerfile.test
+        image: ${APP_NAME}
+        container_name: ${APP_NAME}
+        restart: always
+        ports:
+            - "8080"
+        volumes:
+            - ./:/var/www/html
+        depends_on:
+            - "postgres"
+            - "redis"
+    postgres:
+        build:
+            context: .
+            dockerfile: .docker/postgresql/Dockerfile
+        ports:
+            - "${POSTGRES_TEST_PORT}:5432"
+        image: ${POSTGRES_TEST_NAME} 
+        container_name: ${POSTGRES_TEST_NAME}
+        environment:
+            - PGDATA=${POSTGRES_TEST_DATA}
+            - POSTGRES_DB=${POSTGRES_TEST_DB}
+            - POSTGRES_USER=${POSTGRES_TEST_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_TEST_PASSWORD}
+    redis:
+        build:
+            context: .
+            dockerfile: .docker/redis/Dockerfile
+        ports:
+            - "${REDIS_PORT}:6379"
+        volumes:
+            - ./:/redis/data
+        image: ${REDIS_NAME}
+        container_name: ${REDIS_NAME}
+        depends_on:
+            - "postgres"
