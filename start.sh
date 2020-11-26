@@ -14,6 +14,7 @@ if [ ! -f "$ENV" ]; then
     echo "- $ENV does not exists"
     echo "- Copying .env.example into .env ..."
     cp .env.example .env
+    chmod -R 777 .env
     echo "- Copied!"
     echo "- Now you can configure the .env file as you wish"
     exit

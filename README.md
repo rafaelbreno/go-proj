@@ -1,6 +1,21 @@
 # GoProject
 - Random project for learning purposes
 - Expects a lot of comments
+## Running this App
+- > $ git clone https://github.com/rafaelbreno/go-proj.git
+- > $ cd go-proj
+- > $ sudo ./start.sh
+- Update the generated .env
+- > $ sudo ./start.sh
+-   ```
+        Choose an option:
+        1- Run Tests
+        2- Run Prod
+        3- Run Tests and Prod
+        4- Purge All
+    ```
+- > $ 3
+- Hit enter and Enjoy 
 ## Packages
 - [Gin](https://github.com/gin-gonic/gin)
 - [GORM](https://github.com/go-gorm/gorm)
