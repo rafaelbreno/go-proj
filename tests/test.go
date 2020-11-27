@@ -11,9 +11,16 @@ import (
 	"testing"
 )
 
-type Test struct{}
+type TestStruct struct {
+	Token AuthTokens
+}
 
-func (_ *Test) AuthTests(t *testing.T) {
+type AuthTokens struct {
+	AccessToken  string `json:"access_token"`
+	RefreshToken string `json:"refresh_token"`
+}
+
+func (ts *TestStruct) AuthTests(t *testing.T) {
 	r := routes.GetTestRouter()
 
 	t.Run("SignUp new User", func(t *testing.T) {
@@ -46,8 +53,15 @@ func (_ *Test) AuthTests(t *testing.T) {
 		req.Header.Set("Content-Type", "application/json")
 
 		w := httptest.NewRecorder()
-
 		r.ServeHTTP(w, req)
+
+		res := w.Result()
+
+		buf := new(bytes.Buffer)
+
+		buf.ReadFrom(res.Body)
+
+		_ = json.Unmarshal(buf.Bytes(), &ts.Token)
 
 		assert.Equal(t, nil, err)
 		assert.Equal(t, http.StatusOK, w.Code)
@@ -70,4 +84,21 @@ func (_ *Test) AuthTests(t *testing.T) {
 		assert.Equal(t, http.StatusBadRequest, w.Code)
 	})
 
+	t.Run("Logout", func(t *testing.T) {
+		info := make(map[string]string, 1)
+
+		info["access_token"] = ts.Token.AccessToken
+
+		payload, _ := json.Marshal(info)
+
+		req, _ := http.NewRequest("DELETE", "/logout", bytes.NewReader(payload))
+
+		req.Header.Set("Content-Type", "application/json")
+
+		w := httptest.NewRecorder()
+
+		r.ServeHTTP(w, req)
+
+		assert.Equal(t, http.StatusOK, w.Code)
+	})
 }

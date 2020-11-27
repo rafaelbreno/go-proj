@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-var MainTest tests.Test
+var MainTest tests.TestStruct
 
 func TestAuth(t *testing.T) {
 	MainTest.AuthTests(t)
