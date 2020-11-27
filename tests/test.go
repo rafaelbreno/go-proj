@@ -12,7 +12,7 @@ import (
 )
 
 type TestStruct struct {
-	Token AuthTokens
+	Data AuthTokens `json:"data"`
 }
 
 type AuthTokens struct {
@@ -61,7 +61,7 @@ func (ts *TestStruct) AuthTests(t *testing.T) {
 
 		buf.ReadFrom(res.Body)
 
-		_ = json.Unmarshal(buf.Bytes(), &ts.Token)
+		_ = json.Unmarshal(buf.Bytes(), &ts)
 
 		assert.Equal(t, nil, err)
 		assert.Equal(t, http.StatusOK, w.Code)
@@ -85,15 +85,12 @@ func (ts *TestStruct) AuthTests(t *testing.T) {
 	})
 
 	t.Run("Logout", func(t *testing.T) {
-		info := make(map[string]string, 1)
-
-		info["access_token"] = ts.Token.AccessToken
-
-		payload, _ := json.Marshal(info)
-
-		req, _ := http.NewRequest("DELETE", "/logout", bytes.NewReader(payload))
+		req, _ := http.NewRequest("DELETE", "/logout", bytes.NewReader([]byte(nil)))
 
 		req.Header.Set("Content-Type", "application/json")
+		req.Header.Set("Authorization", string(ts.Data.AccessToken))
+
+		t.Log(ts.Data)
 
 		w := httptest.NewRecorder()
 

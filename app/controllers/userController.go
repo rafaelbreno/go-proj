@@ -183,5 +183,6 @@ func (u *UserController) Refresh(c *gin.Context) {
 		})
 	} else {
 		c.JSON(http.StatusUnauthorized, "refresh expired")
+		return
 	}
 }
