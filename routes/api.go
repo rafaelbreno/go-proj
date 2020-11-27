@@ -12,27 +12,9 @@ var r *gin.Engine
 func GetTestRouter() *gin.Engine {
 	r = gin.Default()
 
+	allRoutes()
+
 	models.ConnectTestDatabase()
-
-	midd := middlewares.Auth{}
-
-	auth := r.Group("/")
-
-	auth.Use(midd.Auth())
-	{
-		taskRoutes(auth)
-		listRoutes(auth)
-
-		/* Delete method because
-		 * it's deleting a
-		 * Redis record :)
-		**/
-		u := controllers.UserController{}
-		auth.DELETE("/logout", u.Logout)
-		auth.POST("/refresh/token", u.Refresh)
-	}
-
-	authRoutes()
 
 	return r
 }
@@ -40,6 +22,15 @@ func GetTestRouter() *gin.Engine {
 func Init() {
 	r = gin.Default()
 
+	allRoutes()
+
+	models.ConnectDatabase()
+
+	// Same port as go/Dockerfile
+	r.Run(":8080")
+}
+
+func allRoutes() {
 	midd := middlewares.Auth{}
 
 	auth := r.Group("/")
@@ -58,11 +49,7 @@ func Init() {
 		auth.POST("/refresh/token", u.Refresh)
 	}
 
-	models.ConnectDatabase()
-
 	authRoutes()
-	// Same port as go/Dockerfile
-	r.Run(":8080")
 }
 
 func authRoutes() {
