@@ -34,4 +34,40 @@ func (_ *Test) AuthTests(t *testing.T) {
 		assert.Equal(t, nil, err)
 		assert.Equal(t, http.StatusOK, w.Code)
 	})
+
+	t.Run("SignIn Correct User", func(t *testing.T) {
+		payload, _ := json.Marshal(models.CreateUserInput{
+			Email:    "mock@john.com",
+			Password: "123123",
+		})
+
+		req, err := http.NewRequest("POST", "/signin", bytes.NewReader(payload))
+
+		req.Header.Set("Content-Type", "application/json")
+
+		w := httptest.NewRecorder()
+
+		r.ServeHTTP(w, req)
+
+		assert.Equal(t, nil, err)
+		assert.Equal(t, http.StatusOK, w.Code)
+	})
+
+	t.Run("SignIn Wrong User", func(t *testing.T) {
+		payload, _ := json.Marshal(models.CreateUserInput{
+			Email:    "mock@john.com",
+			Password: "1231234",
+		})
+
+		req, _ := http.NewRequest("POST", "/signin", bytes.NewReader(payload))
+
+		req.Header.Set("Content-Type", "application/json")
+
+		w := httptest.NewRecorder()
+
+		r.ServeHTTP(w, req)
+
+		assert.Equal(t, http.StatusBadRequest, w.Code)
+	})
+
 }
