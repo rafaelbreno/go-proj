@@ -78,6 +78,7 @@
     - [ ] Jenkins
     - [ ] Gitlab CI
     - [ ] Github Actions
+    - [ ] CircleCI
 - [x] Container
     - [x] Docker
 - [ ] Configuration Management
