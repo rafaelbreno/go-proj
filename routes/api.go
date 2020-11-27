@@ -10,9 +10,29 @@ import (
 var r *gin.Engine
 
 func GetTestRouter() *gin.Engine {
-	r := gin.Default()
+	r = gin.Default()
 
 	models.ConnectTestDatabase()
+
+	midd := middlewares.Auth{}
+
+	auth := r.Group("/")
+
+	auth.Use(midd.Auth())
+	{
+		taskRoutes(auth)
+		listRoutes(auth)
+
+		/* Delete method because
+		 * it's deleting a
+		 * Redis record :)
+		**/
+		u := controllers.UserController{}
+		auth.DELETE("/logout", u.Logout)
+		auth.POST("/refresh/token", u.Refresh)
+	}
+
+	authRoutes()
 
 	return r
 }
