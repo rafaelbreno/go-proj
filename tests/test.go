@@ -3,16 +3,17 @@ package tests
 import (
 	"bytes"
 	"encoding/json"
+	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 	"go-proj/app/models"
-	"go-proj/routes"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 )
 
 type TestStruct struct {
-	Data AuthTokens `json:"data"`
+	Data   AuthTokens `json:"data"`
+	Router *gin.Engine
 }
 
 type AuthTokens struct {
@@ -21,8 +22,6 @@ type AuthTokens struct {
 }
 
 func (ts *TestStruct) AuthTests(t *testing.T) {
-	r := routes.GetTestRouter()
-
 	t.Run("SignUp new User", func(t *testing.T) {
 		payload, _ := json.Marshal(models.CreateUserInput{
 			Email:                "mock@john.com",
@@ -36,7 +35,7 @@ func (ts *TestStruct) AuthTests(t *testing.T) {
 
 		w := httptest.NewRecorder()
 
-		r.ServeHTTP(w, req)
+		ts.Router.ServeHTTP(w, req)
 
 		assert.Equal(t, nil, err)
 		assert.Equal(t, http.StatusOK, w.Code)
@@ -53,7 +52,7 @@ func (ts *TestStruct) AuthTests(t *testing.T) {
 		req.Header.Set("Content-Type", "application/json")
 
 		w := httptest.NewRecorder()
-		r.ServeHTTP(w, req)
+		ts.Router.ServeHTTP(w, req)
 
 		res := w.Result()
 
@@ -79,22 +78,23 @@ func (ts *TestStruct) AuthTests(t *testing.T) {
 
 		w := httptest.NewRecorder()
 
-		r.ServeHTTP(w, req)
+		ts.Router.ServeHTTP(w, req)
 
 		assert.Equal(t, http.StatusBadRequest, w.Code)
 	})
 
+}
+
+func (ts *TestStruct) LogoutTest(t *testing.T) {
 	t.Run("Logout", func(t *testing.T) {
 		req, _ := http.NewRequest("DELETE", "/logout", bytes.NewReader([]byte(nil)))
 
 		req.Header.Set("Content-Type", "application/json")
 		req.Header.Set("Authorization", string(ts.Data.AccessToken))
 
-		t.Log(ts.Data)
-
 		w := httptest.NewRecorder()
 
-		r.ServeHTTP(w, req)
+		ts.Router.ServeHTTP(w, req)
 
 		assert.Equal(t, http.StatusOK, w.Code)
 	})

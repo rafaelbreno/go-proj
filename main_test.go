@@ -1,6 +1,7 @@
 package main
 
 import (
+	"go-proj/routes"
 	"go-proj/tests"
 	"testing"
 )
@@ -8,5 +9,12 @@ import (
 var MainTest tests.TestStruct
 
 func TestAuth(t *testing.T) {
+	MainTest.Router = routes.GetTestRouter()
+
 	MainTest.AuthTests(t)
+
+	MainTest.ListTests(t)
+
+	MainTest.LogoutTest(t)
+
 }
