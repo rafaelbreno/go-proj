@@ -149,9 +149,11 @@ func (a *Auth) splitToken() {
 	bearerToken := a.ctx.Request.Header.Get("Authorization")
 
 	strArr := strings.Split(bearerToken, " ")
+
 	if len(strArr) == 2 {
 		a.headerToken = strArr[1]
-
+	} else {
+		a.headerToken = strArr[0]
 	}
 }
 func (a *Auth) checkMetadata() error {
