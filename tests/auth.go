@@ -12,8 +12,13 @@ import (
 )
 
 type TestStruct struct {
-	Data   AuthTokens `json:"data"`
+	Auth   Auth
+	List   List
 	Router *gin.Engine
+}
+
+type Auth struct {
+	Data AuthTokens `json:"data"`
 }
 
 type AuthTokens struct {
@@ -60,7 +65,7 @@ func (ts *TestStruct) AuthTests(t *testing.T) {
 
 		buf.ReadFrom(res.Body)
 
-		_ = json.Unmarshal(buf.Bytes(), &ts)
+		_ = json.Unmarshal(buf.Bytes(), &ts.Auth)
 
 		assert.Equal(t, nil, err)
 		assert.Equal(t, http.StatusOK, w.Code)
@@ -87,15 +92,15 @@ func (ts *TestStruct) AuthTests(t *testing.T) {
 
 func (ts *TestStruct) LogoutTest(t *testing.T) {
 	t.Run("Logout", func(t *testing.T) {
-		req, _ := http.NewRequest("DELETE", "/logout", bytes.NewReader([]byte(nil)))
+		req, err := http.NewRequest("DELETE", "/logout", bytes.NewReader([]byte(nil)))
 
-		req.Header.Set("Content-Type", "application/json")
-		req.Header.Set("Authorization", string(ts.Data.AccessToken))
+		ts.SetHeader(req)
 
 		w := httptest.NewRecorder()
 
 		ts.Router.ServeHTTP(w, req)
 
+		assert.Nil(t, err)
 		assert.Equal(t, http.StatusOK, w.Code)
 	})
 }
