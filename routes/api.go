@@ -67,7 +67,7 @@ func taskRoutes(rt *gin.RouterGroup) {
 	taskGroup := rt.Group("/task")
 	{
 		taskGroup.GET("/:id", controller.Show)
-		taskGroup.POST("/", controller.Store)
+		taskGroup.POST("", controller.Store)
 		taskGroup.PUT("/:id", controller.Update)
 		taskGroup.DELETE("/:id", controller.Delete)
 	}
@@ -77,9 +77,9 @@ func listRoutes(rl *gin.RouterGroup) {
 	controller := controllers.ListController{}
 	listGroup := rl.Group("/list")
 	{
-		listGroup.GET("/", controller.Index)
+		listGroup.GET("", controller.Index)
 		listGroup.GET("/:id", controller.Show)
-		listGroup.POST("/", controller.Store)
+		listGroup.POST("", controller.Store)
 		listGroup.PUT("/:id", controller.Update)
 		listGroup.DELETE("/:id", controller.Delete)
 	}
