@@ -64,9 +64,9 @@
 - [ ] Explode Functionalities into Microservices
 
 ### Development Pattern
-- [ ] Implement some design pattern
+- [x] Implement some design pattern
     - [x] SOLID
-    - [ ] TDD
+    - [x] TDD
     - Choose one:
         - ~DDD~
         - ~BDD~
