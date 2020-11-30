@@ -74,11 +74,11 @@
     - I didn't find a great and concrete sample/example of a Golang project(or any other language) in DDD
     - So I'm gonna stick with the _MVC-ish_ pattern
 ### DevOps
-- [ ] Choose one CI/CD
-    - [ ] Jenkins
-    - [ ] Gitlab CI
-    - [ ] Github Actions
-    - [ ] CircleCI
+- [x] Choose one CI/CD
+    - [x] Jenkins
+    - ~Gitlab CI~
+    - ~Github Actions~
+    - ~CircleCI~
 - [x] Container
     - [x] Docker
 - [ ] Configuration Management
