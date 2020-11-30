@@ -16,12 +16,21 @@ type List struct {
 }
 
 type ListData struct {
-	ID    uint    `json:"id"`
-	Title string  `json:"title"`
-	Tasks []Tasks `json:"tasks"`
+	ID     uint       `json:"id"`
+	Title  string     `json:"title"`
+	Status uint       `json:"status"`
+	Tasks  []TaskData `json:"tasks"`
 }
 
-type Tasks struct{}
+type Task struct {
+	Data TaskData `json:"data"`
+}
+
+type TaskData struct {
+	ID     uint   `json:"id"`
+	Title  string `json:"title"`
+	Status uint   `json:"status"`
+}
 
 func (ts *TestStruct) ListTests(t *testing.T) {
 
@@ -66,7 +75,7 @@ func (ts *TestStruct) ListTests(t *testing.T) {
 		w := httptest.NewRecorder()
 
 		assert.Nil(t, err)
-		assert.Equal(t, http.StatusBadRequest, w.Code)
+		assert.Equal(t, http.StatusOK, w.Code)
 	})
 
 	t.Run("Get List by ID", func(t *testing.T) {
@@ -78,7 +87,79 @@ func (ts *TestStruct) ListTests(t *testing.T) {
 
 		ts.Router.ServeHTTP(w, req)
 
-		t.Log(err)
+		assert.Nil(t, err)
+		assert.Equal(t, http.StatusOK, w.Code)
+	})
+
+	t.Run("Update List", func(t *testing.T) {
+		payload, _ := json.Marshal(models.UpdateListInput{
+			Title:  "Shopping Updated",
+			Status: 1,
+		})
+
+		req, err := http.NewRequest("PUT", "/list/"+fmt.Sprint(ts.List.Data.ID), bytes.NewReader(payload))
+
+		ts.SetHeader(req)
+
+		w := httptest.NewRecorder()
+
+		ts.Router.ServeHTTP(w, req)
+
+		assert.Nil(t, err)
+		assert.Equal(t, http.StatusOK, w.Code)
+	})
+}
+
+func (ts *TestStruct) TaskTests(t *testing.T) {
+	t.Run("Add Task", func(t *testing.T) {
+		payload, _ := json.Marshal(models.CreateTaskInput{
+			Title:  "Go to Cinema",
+			Status: 1,
+			ListId: ts.List.Data.ID,
+		})
+
+		req, err := http.NewRequest("POST", "/task", bytes.NewReader(payload))
+
+		ts.SetHeader(req)
+
+		w := httptest.NewRecorder()
+
+		ts.Router.ServeHTTP(w, req)
+
+		res := w.Result()
+
+		buf := new(bytes.Buffer)
+
+		buf.ReadFrom(res.Body)
+
+		_ = json.Unmarshal(buf.Bytes(), &ts.Task)
+
+		assert.Nil(t, err)
+		assert.Equal(t, http.StatusOK, w.Code)
+	})
+
+	t.Run("Update Task", func(t *testing.T) {
+		payload, _ := json.Marshal(models.UpdateTaskInput{
+			Title:  "Go to Movies",
+			Status: 2,
+		})
+
+		req, err := http.NewRequest("PUT", "/task/"+fmt.Sprint(ts.Task.Data.ID), bytes.NewReader(payload))
+
+		ts.SetHeader(req)
+
+		w := httptest.NewRecorder()
+
+		ts.Router.ServeHTTP(w, req)
+
+		res := w.Result()
+
+		buf := new(bytes.Buffer)
+
+		buf.ReadFrom(res.Body)
+
+		_ = json.Unmarshal(buf.Bytes(), &ts.Task)
+
 		assert.Nil(t, err)
 		assert.Equal(t, http.StatusOK, w.Code)
 	})
