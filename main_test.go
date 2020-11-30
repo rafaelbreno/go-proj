@@ -15,6 +15,8 @@ func TestAuth(t *testing.T) {
 
 	MainTest.ListTests(t)
 
+	MainTest.TaskTests(t)
+
 	MainTest.LogoutTest(t)
 
 }

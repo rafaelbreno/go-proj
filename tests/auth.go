@@ -14,6 +14,7 @@ import (
 type TestStruct struct {
 	Auth   Auth
 	List   List
+	Task   Task
 	Router *gin.Engine
 }
 
