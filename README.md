@@ -75,9 +75,9 @@
     - So I'm gonna stick with the _MVC-ish_ pattern
 ### DevOps
 - [x] Choose one CI/CD
-    - [x] Jenkins
+    - ~Jenkins~
     - ~Gitlab CI~
-    - ~Github Actions~
+    - [x] Github Actions
     - ~CircleCI~
 - [x] Container
     - [x] Docker
