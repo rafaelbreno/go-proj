@@ -74,19 +74,27 @@
     - I didn't find a great and concrete sample/example of a Golang project(or any other language) in DDD
     - So I'm gonna stick with the _MVC-ish_ pattern
 ### DevOps
-- [x] Choose one CI/CD
+#### CI/CD
+- [x] Choose one
     - ~Jenkins~
     - ~Gitlab CI~
     - [x] Github Actions
     - ~CircleCI~
-- [x] Container
+- [_/.github_](https://github.com/rafaelbreno/go-proj/tree/master/.github)
+#### Container
+- [x] Choose One
     - [x] Docker
+- [_/.docker_](https://github.com/rafaelbreno/go-proj/tree/master/.docker)
+
 - [ ] Configuration Management
     - [ ] Ansible
+
 - [ ] Container Orchestration
     - [ ] Kubernetes
+
 - [ ] Infraestructure Provisioning
     - [ ] Terraform
+
 - [ ] Service Mesh
     - [ ] Istio 
 
