@@ -9,7 +9,7 @@ type User struct {
 
 	Email    string `gorm:"email"`
 	Password string `gorm:"password"`
-	Status   uint
+	Status   uint   `gorm:"status"`
 
 	// Account can be a uuid string
 	Account string `gorm:"account"`
