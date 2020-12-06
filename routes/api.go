@@ -2,7 +2,7 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
-	"go-proj/handler"
+	"go-proj/app/handler"
 )
 
 var r *gin.Engine
