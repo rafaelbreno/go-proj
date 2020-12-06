@@ -1,9 +1,9 @@
 package main
 
 import (
-	"go-proj/routes"
+	"go-proj/app"
 )
 
 func main() {
-	routes.Innit()
+	app.Innit()
 }
