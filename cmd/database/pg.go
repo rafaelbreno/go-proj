@@ -26,7 +26,7 @@ func (pg *Postgres) SetPostgres() {
 }
 
 func (pg *Postgres) setCredentials() {
-	pg.dbName = os.Getenv("POSTGRES_NAME")
+	pg.dbName = os.Getenv("POSTGRES_DB")
 	pg.dbHost = os.Getenv("POSTGRES_HOST")
 	pg.dbPort = os.Getenv("POSTGRES_PORT")
 	pg.dbUser = os.Getenv("POSTGRES_USER")
