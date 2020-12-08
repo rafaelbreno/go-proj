@@ -5,14 +5,14 @@ import (
 )
 
 type UserService interface {
-	GetAllUsers() ([]domain.User, error)
+	FindAll() ([]domain.User, error)
 }
 
 type DefaultUserService struct {
 	repo domain.UserRepository
 }
 
-func (s DefaultUserService) GetAllUsers() ([]domain.User, error) {
+func (s DefaultUserService) FindAll() ([]domain.User, error) {
 	return s.repo.FindAll()
 }
 

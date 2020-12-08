@@ -5,7 +5,7 @@ import (
 	"go-proj/cmd/database"
 )
 
-var conn database.Connection
+var Conn database.Connection
 
 func Setting() {
 	setConn()
@@ -15,10 +15,10 @@ func Setting() {
 
 // Stablishing DB conn
 func setConn() {
-	conn = cmd.GetConn()
+	Conn = cmd.GetConn()
 }
 
 // Migrating Domain/Models
 func migrate() {
-	conn.Postgres.Conn.AutoMigrate(&User{})
+	Conn.Postgres.Conn.AutoMigrate(&User{})
 }

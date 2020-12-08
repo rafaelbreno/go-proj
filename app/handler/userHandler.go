@@ -13,9 +13,11 @@ type UserHandlers struct {
 }
 
 func GetUserHandlers() UserHandlers {
-	return UserHandlers{service.NewUserService(domain.NewUserRepositoryStub())}
+	return UserHandlers{service.NewUserService(domain.NewUserRepositoryDB())}
 }
 
-func (_ *UserHandlers) GetAllUsers(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"Ahaha": "aloalo"})
+func (uh *UserHandlers) FindAll(c *gin.Context) {
+	users, _ := uh.service.FindAll()
+
+	c.JSON(http.StatusOK, gin.H{"users": users})
 }

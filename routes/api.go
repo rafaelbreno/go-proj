@@ -21,5 +21,5 @@ func routes() {
 
 func userRoutes() {
 	userH := handler.GetUserHandlers()
-	r.GET("/users", userH.GetAllUsers)
+	r.GET("/users", userH.FindAll)
 }
