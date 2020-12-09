@@ -6,6 +6,7 @@ import (
 
 type UserService interface {
 	FindAll() ([]domain.User, error)
+	FindById(id uint) (domain.User, error)
 }
 
 type DefaultUserService struct {
@@ -14,6 +15,10 @@ type DefaultUserService struct {
 
 func (s DefaultUserService) FindAll() ([]domain.User, error) {
 	return s.repo.FindAll()
+}
+
+func (s DefaultUserService) FindById(id uint) (domain.User, error) {
+	return s.repo.FindById(id)
 }
 
 func NewUserService(r domain.UserRepository) DefaultUserService {

@@ -1,6 +1,8 @@
 package domain
 
 import (
+	"fmt"
+
 	"gorm.io/gorm"
 )
 
@@ -14,6 +16,18 @@ func (u UserRepositoryDB) FindAll() ([]User, error) {
 	u.DB.Find(&users)
 
 	return users, nil
+}
+
+func (u UserRepositoryDB) FindById(id uint) (User, error) {
+	var user User
+
+	u.DB.Where("id = ?", id).First(&user)
+
+	if (User{}) == user {
+		return User{}, fmt.Errorf("User not found")
+	}
+
+	return user, nil
 }
 
 func NewUserRepositoryDB() UserRepositoryDB {
