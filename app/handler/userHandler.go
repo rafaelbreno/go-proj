@@ -1,8 +1,10 @@
 package handler
 
 import (
+	"go-proj/cmd/helper"
 	"go-proj/domain"
 	"go-proj/service"
+
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -20,4 +22,16 @@ func (uh *UserHandlers) FindAll(c *gin.Context) {
 	users, _ := uh.service.FindAll()
 
 	c.JSON(http.StatusOK, gin.H{"users": users})
+}
+
+func (uh *UserHandlers) FindById(c *gin.Context) {
+	id := helper.StrToUint(c.Param("id"))
+
+	user, err := uh.service.FindById(id)
+
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+	}
+
+	c.JSON(http.StatusOK, gin.H{"user": user})
 }
