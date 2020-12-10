@@ -6,7 +6,7 @@ import (
 
 type UserService interface {
 	FindAll() ([]domain.User, error)
-	FindById(id uint) (domain.User, error)
+	FindById(id uint) (*domain.User, error)
 }
 
 type DefaultUserService struct {
@@ -17,7 +17,7 @@ func (s DefaultUserService) FindAll() ([]domain.User, error) {
 	return s.repo.FindAll()
 }
 
-func (s DefaultUserService) FindById(id uint) (domain.User, error) {
+func (s DefaultUserService) FindById(id uint) (*domain.User, error) {
 	return s.repo.FindById(id)
 }
 

@@ -18,7 +18,7 @@ func (u UserRepositoryDB) FindAll() ([]User, error) {
 	return users, nil
 }
 
-func (u UserRepositoryDB) FindById(id uint) (User, error) {
+func (u UserRepositoryDB) FindById(id uint) (*User, error) {
 	var user User
 
 	u.DB.Where("id = ?", id).First(&user)
