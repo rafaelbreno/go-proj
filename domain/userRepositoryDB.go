@@ -1,6 +1,7 @@
 package domain
 
 import (
+	"errors"
 	"fmt"
 
 	"gorm.io/gorm"
@@ -21,13 +22,15 @@ func (u UserRepositoryDB) FindAll() ([]User, error) {
 func (u UserRepositoryDB) FindById(id uint) (*User, error) {
 	var user User
 
-	u.DB.Where("id = ?", id).First(&user)
-
-	if (User{}) == user {
-		return User{}, fmt.Errorf("User not found")
+	if err := u.DB.Where("id = ?", id).First(&user).Error; err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+		return &User{}, fmt.Errorf("Unable to stablish a DB connection")
 	}
 
-	return user, nil
+	if (User{}) == user {
+		return &User{}, fmt.Errorf("User not found")
+	}
+
+	return &user, nil
 }
 
 func NewUserRepositoryDB() UserRepositoryDB {
