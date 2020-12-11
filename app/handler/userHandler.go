@@ -19,7 +19,12 @@ func GetUserHandlers() UserHandlers {
 }
 
 func (uh *UserHandlers) FindAll(c *gin.Context) {
-	users, _ := uh.service.FindAll()
+	users, err := uh.service.FindAll()
+
+	if err != nil {
+		c.JSON(err.StatusCode(), gin.H{"error": err.MessageContext()})
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{"users": users})
 }

@@ -15,7 +15,9 @@ type UserRepositoryDB struct {
 func (u UserRepositoryDB) FindAll() ([]User, *app_error.AppError) {
 	var users []User
 
-	u.DB.Find(&users)
+	if err := u.DB.Find(&users).Error; err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+		return users, app_error.NewUnexpectedError("Unable to stablish a DB connection", "domain/userRepositoryDB/FindById")
+	}
 
 	return users, nil
 }
