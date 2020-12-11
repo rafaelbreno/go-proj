@@ -1,6 +1,7 @@
 package domain
 
 import (
+	"go-proj/cmd/app_error"
 	"gorm.io/gorm"
 )
 
@@ -16,6 +17,6 @@ type User struct {
 }
 
 type UserRepository interface {
-	FindAll() ([]User, error)
-	FindById(id uint) (*User, error)
+	FindAll() ([]User, *app_error.AppError)
+	FindById(id uint) (*User, *app_error.AppError)
 }

@@ -1,23 +1,24 @@
 package service
 
 import (
+	"go-proj/cmd/app_error"
 	"go-proj/domain"
 )
 
 type UserService interface {
-	FindAll() ([]domain.User, error)
-	FindById(id uint) (*domain.User, error)
+	FindAll() ([]domain.User, *app_error.AppError)
+	FindById(id uint) (*domain.User, *app_error.AppError)
 }
 
 type DefaultUserService struct {
 	repo domain.UserRepository
 }
 
-func (s DefaultUserService) FindAll() ([]domain.User, error) {
+func (s DefaultUserService) FindAll() ([]domain.User, *app_error.AppError) {
 	return s.repo.FindAll()
 }
 
-func (s DefaultUserService) FindById(id uint) (*domain.User, error) {
+func (s DefaultUserService) FindById(id uint) (*domain.User, *app_error.AppError) {
 	return s.repo.FindById(id)
 }
 

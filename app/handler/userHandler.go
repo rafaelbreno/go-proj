@@ -30,7 +30,7 @@ func (uh *UserHandlers) FindById(c *gin.Context) {
 	user, err := uh.service.FindById(id)
 
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		c.JSON(http.StatusNotFound, gin.H{"error": err.MessageContext()})
 		return
 	}
 

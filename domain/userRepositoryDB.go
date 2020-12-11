@@ -2,7 +2,8 @@ package domain
 
 import (
 	"errors"
-	"fmt"
+
+	"go-proj/cmd/app_error"
 
 	"gorm.io/gorm"
 )
@@ -11,7 +12,7 @@ type UserRepositoryDB struct {
 	DB *gorm.DB
 }
 
-func (u UserRepositoryDB) FindAll() ([]User, error) {
+func (u UserRepositoryDB) FindAll() ([]User, *app_error.AppError) {
 	var users []User
 
 	u.DB.Find(&users)
@@ -19,15 +20,15 @@ func (u UserRepositoryDB) FindAll() ([]User, error) {
 	return users, nil
 }
 
-func (u UserRepositoryDB) FindById(id uint) (*User, error) {
+func (u UserRepositoryDB) FindById(id uint) (*User, *app_error.AppError) {
 	var user User
 
 	if err := u.DB.Where("id = ?", id).First(&user).Error; err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
-		return &User{}, fmt.Errorf("Unable to stablish a DB connection")
+		return &User{}, app_error.NewUnexpectedError("Unable to stablish a DB connection", "domain/userRepositoryDB/FindById")
 	}
 
 	if (User{}) == user {
-		return &User{}, fmt.Errorf("User not found")
+		return &User{}, app_error.NewNotFoundError("UserNotFound", "domain/userRepositoryDB/FindById")
 	}
 
 	return &user, nil
