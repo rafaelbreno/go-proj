@@ -27,6 +27,7 @@
 - [Gin](https://github.com/gin-gonic/gin)
 - [GORM](https://github.com/go-gorm/gorm)
 - [Godotenv](github.com/joho/godotenv)
+- [Zap](https://github.com/uber-go/zap)
 ## TODO:
 
 ### Study: 
