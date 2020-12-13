@@ -2,6 +2,7 @@ package handler
 
 import (
 	"go-proj/cmd/helper"
+	"go-proj/cmd/logger"
 	"go-proj/domain"
 	"go-proj/service"
 
@@ -23,6 +24,7 @@ func (uh *UserHandlers) FindAll(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(err.StatusCode(), gin.H{"error": err.MessageContext()})
+		logger.Error(err.MessageContext())
 		return
 	}
 
@@ -36,6 +38,7 @@ func (uh *UserHandlers) FindById(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(err.StatusCode(), gin.H{"error": err.MessageContext()})
+		logger.Error(err.MessageContext())
 		return
 	}
 
