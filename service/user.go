@@ -7,7 +7,7 @@ import (
 )
 
 type UserService interface {
-	FindAll() ([]domain.User, *app_error.AppError)
+	FindAll() ([]*dto.UserResponse, *app_error.AppError)
 	FindById(id uint) (*dto.UserResponse, *app_error.AppError)
 }
 
@@ -15,8 +15,18 @@ type DefaultUserService struct {
 	repo domain.UserRepository
 }
 
-func (s DefaultUserService) FindAll() ([]domain.User, *app_error.AppError) {
-	return s.repo.FindAll()
+func (s DefaultUserService) FindAll() ([]*dto.UserResponse, *app_error.AppError) {
+	users, err := s.repo.FindAll()
+	if err != nil {
+		return nil, err
+	}
+	var usersDTO []*dto.UserResponse
+
+	for _, value := range users {
+		usersDTO = append(usersDTO, value.ToDTO())
+	}
+
+	return usersDTO, nil
 }
 
 func (s DefaultUserService) FindById(id uint) (*dto.UserResponse, *app_error.AppError) {
@@ -26,14 +36,7 @@ func (s DefaultUserService) FindById(id uint) (*dto.UserResponse, *app_error.App
 		return nil, err
 	}
 
-	ud := dto.UserResponse{
-		ID:      u.ID,
-		Email:   u.Email,
-		Status:  u.Status,
-		Account: u.Account,
-	}
-
-	return &ud, nil
+	return u.ToDTO(), nil
 }
 
 func NewUserService(r domain.UserRepository) DefaultUserService {
