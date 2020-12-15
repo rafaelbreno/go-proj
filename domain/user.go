@@ -15,7 +15,7 @@ type User struct {
 	Status   uint   `gorm:"status"`
 
 	// Account can be a uuid string
-	Account string `gorm:"account"`
+	Account Account `gorm:"account"`
 }
 
 type UserRepository interface {
@@ -23,11 +23,11 @@ type UserRepository interface {
 	FindById(id uint) (*User, *app_error.AppError)
 }
 
-func (u *User) ToDTO() *dto.UserResponse {
-	return &dto.UserResponse{
+func (u *User) ToDTO() dto.UserResponse {
+	return dto.UserResponse{
 		ID:      u.ID,
 		Email:   u.Email,
 		Status:  u.Status,
-		Account: u.Account,
+		Account: u.Account.ToDTO(),
 	}
 }

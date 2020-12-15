@@ -20,5 +20,5 @@ func setConn() {
 
 // Migrating Domain/Models
 func migrate() {
-	Conn.Postgres.Conn.AutoMigrate(&User{})
+	Conn.Postgres.Conn.AutoMigrate(&User{}, &Account{})
 }

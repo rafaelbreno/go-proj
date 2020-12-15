@@ -6,5 +6,5 @@ type UserResponse struct {
 	Status uint   `json:"status"`
 
 	// Account can be a uuid string
-	Account string `json:"account"`
+	Account AccountResponse `json:"account"`
 }

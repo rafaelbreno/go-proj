@@ -23,7 +23,8 @@ func (s DefaultUserService) FindAll() ([]*dto.UserResponse, *app_error.AppError)
 	var usersDTO []*dto.UserResponse
 
 	for _, value := range users {
-		usersDTO = append(usersDTO, value.ToDTO())
+		a := value.ToDTO()
+		usersDTO = append(usersDTO, &a)
 	}
 
 	return usersDTO, nil
@@ -36,7 +37,10 @@ func (s DefaultUserService) FindById(id uint) (*dto.UserResponse, *app_error.App
 		return nil, err
 	}
 
-	return u.ToDTO(), nil
+	// User DTO
+	uDTO := u.ToDTO()
+
+	return &uDTO, nil
 }
 
 func NewUserService(r domain.UserRepository) DefaultUserService {
